@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sonder Academy — Barber Education</title>
+  <meta name="description" content="Training the next generation of Australian barbers. Register your interest for upcoming events and courses.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0c0c0c;
+      --white: #ffffff;
+      --grey: #888888;
+      --border: #2a2a2a;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Montserrat', Helvetica, Arial, sans-serif;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Registration marks in corners */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .reg-mark {
+      position: fixed;
+      z-index: 100;
+      pointer-events: none;
+      width: 20px;
+      height: 20px;
+    }
+
+    .reg-mark::before,
+    .reg-mark::after {
+      content: '';
+      position: absolute;
+      background: var(--border);
+    }
+
+    .reg-mark::before { width: 1px; height: 20px; left: 10px; top: 0; }
+    .reg-mark::after { height: 1px; width: 20px; top: 10px; left: 0; }
+
+    .reg-mark--tl { top: 16px; left: 16px; }
+    .reg-mark--tr { top: 16px; right: 16px; }
+    .reg-mark--bl { bottom: 16px; left: 16px; }
+    .reg-mark--br { bottom: 16px; right: 16px; }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      padding: 64px 0 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-mark {
+      margin-bottom: 24px;
+    }
+
+    .logo-name {
+      font-family: var(--serif);
+      font-size: 2.4rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      line-height: 1;
+    }
+
+    .logo-sub {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-sub .diamond {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: var(--grey);
+      transform: rotate(45deg);
+    }
+
+    .tagline {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--grey);
+      margin-top: 20px;
+    }
+
+    /* Events */
+    .events {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 40px;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .event-card {
+      border: 1px solid var(--border);
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 260px;
+    }
+
+    .event-date {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+
+    .event-name {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .event-detail {
+      font-size: 0.8rem;
+      color: var(--grey);
+      font-weight: 300;
+      margin-bottom: 4px;
+    }
+
+    .event-price {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 400;
+      margin-top: 8px;
+      margin-bottom: 20px;
+    }
+
+    .event-card .spacer { flex: 1; }
+
+    .btn {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--white);
+      border: 1px solid var(--white);
+      background: transparent;
+      padding: 12px 24px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--white);
+      color: var(--bg);
+    }
+
+    .event-cta {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* Registration form */
+    .registration {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .reg-subtitle {
+      font-size: 0.85rem;
+      color: var(--grey);
+      font-weight: 300;
+      margin-top: 8px;
+      margin-bottom: 40px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 8px;
+    }
+
+    .form-group label .optional {
+      font-weight: 300;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 0.65rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--white);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--grey);
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+
+    select option {
+      background: #1a1a1a;
+      color: var(--white);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .checkbox-group {
+      grid-column: 1 / -1;
+    }
+
+    .checkbox-group > label {
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .checkbox-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: #ccc;
+      line-height: 1.4;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      margin-top: 2px;
+      position: relative;
+      border-radius: 0;
+    }
+
+    .checkbox-item input[type="checkbox"]:checked {
+      border-color: var(--white);
+    }
+
+    .checkbox-item input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 8px;
+      height: 8px;
+      background: var(--white);
+    }
+
+    .btn-submit {
+      grid-column: 1 / -1;
+      width: 100%;
+      margin-top: 12px;
+      padding: 16px;
+      font-size: 0.8rem;
+    }
+
+    /* Thank you message */
+    .thank-you {
+      display: none;
+      text-align: center;
+      padding: 80px 0;
+    }
+
+    .thank-you.visible {
+      display: block;
+    }
+
+    .thank-you h2 {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+
+    .thank-you p {
+      color: var(--grey);
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 48px 0;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--grey);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+
+    footer a {
+      color: var(--grey);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--white); }
+
+    .footer-line {
+      margin-bottom: 6px;
+    }
+
+    .footer-sep {
+      margin: 0 8px;
+      opacity: 0.4;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header { padding: 48px 0 36px; }
+
+      .logo-name { font-size: 2rem; }
+
+      .events { padding: 48px 0; }
+
+      .events-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .event-card { min-height: auto; padding: 24px 20px; }
+
+      .registration { padding: 48px 0; }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .checkbox-list {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Registration marks -->
+  <div class="reg-mark reg-mark--tl"></div>
+  <div class="reg-mark reg-mark--tr"></div>
+  <div class="reg-mark reg-mark--bl"></div>
+  <div class="reg-mark reg-mark--br"></div>
+
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <div class="logo-mark">
+        <div class="logo-name">Sonder.</div>
+        <div class="logo-sub"><span class="diamond"></span> ACADEMY <span class="diamond"></span></div>
+      </div>
+      <p class="tagline">Training the next generation of Australian barbers.</p>
+    </header>
+
+    <!-- Events -->
+    <section class="events">
+      <h2 class="section-title">Upcoming Events</h2>
+      <div class="events-grid">
+
+        <div class="event-card">
+          <div>
+            <div class="event-date">May 30</div>
+            <div class="event-name">Free Look &amp; Learn</div>
+            <div class="event-detail">Under 21s</div>
+            <div class="event-detail">Sydney</div>
+            <div class="event-price">Free</div>
+          </div>
+          <div class="spacer"></div>
+          <!-- TODO: Replace href with actual registration link -->
+          <a href="#register" class="btn">Register Free</a>
+        </div>
+
+        <div class="event-card">
+          <div>
+            <div class="event-date">June 15 &ndash; 16</div>
+            <div class="event-name">Blueprint Intensive</div>
+            <div class="event-detail">Neutral Bay, Sydney</div>
+            <div class="event-price">$1,750</div>
+          </div>
+          <div class="spacer"></div>
+          <!-- TODO: Replace href with actual Humanitix event URL -->
+          <a href="https://www.humanitix.com" target="_blank" rel="noopener" class="btn">Get Tickets</a>
+        </div>
+
+        <div class="event-card event-cta">
+          <p>More coming.<br>Join the list to be first to know.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Registration Form -->
+    <section class="registration" id="register">
+      <h2 class="section-title">Register Your Interest</h2>
+      <p class="reg-subtitle">Tell us about yourself and we'll be in touch.</p>
+
+      <!--
+        FORM ENDPOINT:
+        Replace the action URL below with your Formspree or Netlify Forms endpoint.
+
+        Formspree:  https://formspree.io/f/YOUR_FORM_ID
+        Netlify:    just add netlify attribute to <form> and deploy on Netlify
+
+        Current action is a placeholder that will not work until replaced.
+      -->
+      <form id="registration-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone <span class="optional">(optional)</span></label>
+            <input type="text" id="phone" name="phone">
+          </div>
+
+          <div class="form-group">
+            <label for="describes">What best describes you?</label>
+            <select id="describes" name="describes" required>
+              <option value="" disabled selected>Select one</option>
+              <option value="Barber working in a shop">Barber working in a shop</option>
+              <option value="Garage or home barber">Garage or home barber</option>
+              <option value="Hairdresser transitioning to barbering">Hairdresser transitioning to barbering</option>
+              <option value="Student or complete beginner">Student or complete beginner</option>
+              <option value="Shop owner or manager">Shop owner or manager</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="experience">How long have you been cutting?</label>
+            <select id="experience" name="experience" required>
+              <option value="" disabled selected>Select one</option>
+              <option value="I don't cut yet">I don't cut yet</option>
+              <option value="Less than 1 year">Less than 1 year</option>
+              <option value="1 to 3 years">1 to 3 years</option>
+              <option value="3 to 5 years">3 to 5 years</option>
+              <option value="5 plus years">5 plus years</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="location">Where are you based?</label>
+            <select id="location" name="location" required>
+              <option value="" disabled selected>Select one</option>
+              <option value="Sydney">Sydney</option>
+              <option value="Melbourne">Melbourne</option>
+              <option value="Brisbane">Brisbane</option>
+              <option value="Perth">Perth</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="checkbox-group form-group">
+            <label>What brought you here? <span class="optional">(select all that apply)</span></label>
+            <div class="checkbox-list">
+              <label class="checkbox-item">
+                <input type="checkbox" name="reasons" value="Understand fundamentals properly">
+                I want to understand the fundamentals properly, not just wing it
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="reasons" value="Stopped progressing">
+                I've been cutting for a while but feel like I've stopped progressing
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="reasons" value="Confident with scissors">
+                I want to get confident with scissors
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="reasons" value="Pathway into a quality barbershop">
+                I want to find a pathway into a quality barbershop
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="reasons" value="Upcoming event info">
+                I heard about an upcoming event and want to know more
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="reasons" value="Send staff for training">
+                I want to send my staff for training
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="reasons" value="Stay across upcoming offerings">
+                I want to stay across what Sonder Academy has coming up
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="reasons" value="Career change into barbering">
+                I'm looking for a career change into barbering
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group full">
+            <label for="motivation">What motivated you to reach out to Sonder Academy?</label>
+            <textarea id="motivation" name="motivation" rows="4"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-submit">Submit</button>
+
+        </div>
+      </form>
+
+      <div class="thank-you" id="thank-you">
+        <h2>Thank you.</h2>
+        <p>We'll be in touch soon.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-line">Sonder Academy</div>
+      <div>
+        <a href="https://sonderacademy.com.au" target="_blank" rel="noopener">sonderacademy.com.au</a>
+        <span class="footer-sep">&middot;</span>
+        <a href="https://instagram.com/sonderacademy" target="_blank" rel="noopener">@sonderacademy</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const form = document.getElementById('registration-form');
+    const thankYou = document.getElementById('thank-you');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          form.style.display = 'none';
+          document.querySelector('.reg-subtitle').style.display = 'none';
+          thankYou.classList.add('visible');
+        } else {
+          // If endpoint not configured yet, still show thank you for demo purposes
+          form.style.display = 'none';
+          document.querySelector('.reg-subtitle').style.display = 'none';
+          thankYou.classList.add('visible');
+        }
+      } catch (err) {
+        // Network error or placeholder URL — show thank you anyway for demo
+        form.style.display = 'none';
+        document.querySelector('.reg-subtitle').style.display = 'none';
+        thankYou.classList.add('visible');
+      }
+    });
+  </script>
+
+</body>
+</html>
