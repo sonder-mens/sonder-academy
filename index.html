@@ -859,6 +859,22 @@
           </div>
 
           <div class="form-group full">
+            <label for="interested">What are you interested in?</label>
+            <select id="interested" name="interested" required>
+              <option value="" disabled selected>Select one</option>
+              <option value="One-on-one training at the academy">One-on-one training at the academy</option>
+              <option value="Team training at the academy">Team training at the academy</option>
+              <option value="Sonder Academy coming to our salon">Sonder Academy coming to our salon</option>
+              <option value="Something else">Something else</option>
+            </select>
+          </div>
+
+          <div class="form-group full" id="something-else-wrap" style="display:none">
+            <label for="something-else">Tell us more</label>
+            <textarea id="something-else" name="something_else" rows="3"></textarea>
+          </div>
+
+          <div class="form-group full">
             <label for="heardabout">How did you hear about us?</label>
             <select id="heardabout" name="heardabout" required>
               <option value="" disabled selected>Select one</option>
@@ -941,6 +957,11 @@
   </div>
 
   <script>
+    // Show "Tell us more" when "Something else" is selected
+    document.getElementById('interested').addEventListener('change', function() {
+      document.getElementById('something-else-wrap').style.display = this.value === 'Something else' ? 'flex' : 'none';
+    });
+
     // Carousel
     const track = document.getElementById('photo-track');
     const dotsContainer = document.getElementById('carousel-dots');
