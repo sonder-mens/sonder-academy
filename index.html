@@ -20,7 +20,7 @@
       --sans: 'Montserrat', Helvetica, Arial, sans-serif;
     }
 
-    html { font-size: 16px; }
+    html { font-size: 16px; scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
@@ -32,14 +32,6 @@
     }
 
     /* Registration marks in corners */
-    body::before,
-    body::after {
-      content: '';
-      position: fixed;
-      z-index: 100;
-      pointer-events: none;
-    }
-
     .reg-mark {
       position: fixed;
       z-index: 100;
@@ -69,15 +61,27 @@
       padding: 0 24px;
     }
 
-    /* Header */
+    .section-title {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+
+    .section-sub {
+      font-size: 0.85rem;
+      color: var(--grey);
+      font-weight: 300;
+      margin-bottom: 40px;
+    }
+
+    /* ── Header ── */
     header {
       padding: 64px 0 48px;
       border-bottom: 1px solid var(--border);
     }
 
-    .logo-mark {
-      margin-bottom: 24px;
-    }
+    .logo-mark { margin-bottom: 24px; }
 
     .logo-name {
       font-family: var(--serif);
@@ -116,24 +120,119 @@
       margin-top: 20px;
     }
 
-    /* Events */
+    /* ── Photo carousel ── */
+    .photo-carousel {
+      width: 100%;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .photo-track {
+      display: flex;
+      gap: 4px;
+      transition: transform 0.8s ease;
+      width: max-content;
+    }
+
+    .photo-track img {
+      width: calc((100vw - 4px * 2) / 3);
+      flex-shrink: 0;
+      height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.3s;
+    }
+
+    .carousel-dot.active {
+      background: var(--white);
+    }
+
+    /* ── About ── */
+    .about {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-body {
+      max-width: 680px;
+    }
+
+    .about-body p {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: #ccc;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .about-body p:last-child { margin-bottom: 0; }
+
+    .about-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .about-stat {
+      text-align: left;
+    }
+
+    .about-stat .num {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .about-stat .label {
+      font-size: 0.7rem;
+      color: var(--grey);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── Events — horizontal scroll ── */
     .events {
       padding: 64px 0;
       border-bottom: 1px solid var(--border);
     }
 
-    .section-title {
-      font-family: var(--serif);
-      font-size: 1.8rem;
-      font-weight: 400;
-      margin-bottom: 40px;
+    .events-row {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
     }
 
-    .events-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
+    .events-row::-webkit-scrollbar { height: 4px; }
+    .events-row::-webkit-scrollbar-track { background: transparent; }
+    .events-row::-webkit-scrollbar-thumb { background: var(--border); }
 
     .event-card {
       border: 1px solid var(--border);
@@ -141,7 +240,9 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 260px;
+      min-width: 260px;
+      max-width: 280px;
+      flex-shrink: 0;
     }
 
     .event-date {
@@ -173,8 +274,29 @@
       margin-bottom: 20px;
     }
 
-    .event-card .spacer { flex: 1; }
+    .event-card .spacer { flex: 1; min-height: 20px; }
 
+    .event-note {
+      font-size: 0.7rem;
+      color: var(--grey);
+      font-weight: 300;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    .event-cta {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-width: 220px;
+    }
+
+    /* ── Buttons ── */
     .btn {
       display: inline-block;
       font-family: var(--sans);
@@ -197,29 +319,40 @@
       color: var(--bg);
     }
 
-    .event-cta {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 1.1rem;
-      color: var(--grey);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* ── CTA banner ── */
+    .cta-banner {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
       text-align: center;
     }
 
-    /* Registration form */
+    .cta-banner h2 {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+
+    .cta-banner p {
+      font-size: 0.9rem;
+      color: var(--grey);
+      font-weight: 300;
+      margin-bottom: 28px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-cta {
+      padding: 16px 48px;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+    }
+
+    /* ── Registration form ── */
     .registration {
       padding: 64px 0;
       border-bottom: 1px solid var(--border);
-    }
-
-    .reg-subtitle {
-      font-size: 0.85rem;
-      color: var(--grey);
-      font-weight: 300;
-      margin-top: 8px;
-      margin-bottom: 40px;
     }
 
     .form-grid {
@@ -246,15 +379,9 @@
       margin-bottom: 8px;
     }
 
-    .form-group label .optional {
-      font-weight: 300;
-      text-transform: none;
-      letter-spacing: 0;
-      font-size: 0.65rem;
-    }
-
     input[type="text"],
     input[type="email"],
+    input[type="tel"],
     select,
     textarea {
       font-family: var(--sans);
@@ -356,16 +483,14 @@
       font-size: 0.8rem;
     }
 
-    /* Thank you message */
+    /* Thank you */
     .thank-you {
       display: none;
       text-align: center;
       padding: 80px 0;
     }
 
-    .thank-you.visible {
-      display: block;
-    }
+    .thank-you.visible { display: block; }
 
     .thank-you h2 {
       font-family: var(--serif);
@@ -379,7 +504,7 @@
       font-size: 0.9rem;
     }
 
-    /* Footer */
+    /* ── Footer ── */
     footer {
       padding: 48px 0;
       text-align: center;
@@ -397,29 +522,109 @@
 
     footer a:hover { color: var(--white); }
 
-    .footer-line {
-      margin-bottom: 6px;
-    }
+    .footer-line { margin-bottom: 6px; }
 
     .footer-sep {
       margin: 0 8px;
       opacity: 0.4;
     }
 
-    /* Responsive */
+    /* ── Age gate modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal {
+      background: #111;
+      border: 1px solid var(--border);
+      padding: 48px 40px;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .modal h3 {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .modal p {
+      font-size: 0.82rem;
+      color: var(--grey);
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+
+    .modal .form-group {
+      margin-bottom: 16px;
+    }
+
+    .modal .btn-submit {
+      width: 100%;
+      margin-top: 8px;
+      grid-column: auto;
+    }
+
+    .modal .modal-close {
+      margin-top: 16px;
+      display: block;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--grey);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--sans);
+      letter-spacing: 0.05em;
+    }
+
+    .modal .modal-close:hover { color: var(--white); }
+
+    .modal-message {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .modal-message h3 {
+      margin-bottom: 8px;
+    }
+
+    .modal-message a {
+      color: var(--white);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* ── Responsive ── */
     @media (max-width: 768px) {
       header { padding: 48px 0 36px; }
-
       .logo-name { font-size: 2rem; }
 
-      .events { padding: 48px 0; }
-
-      .events-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
+      .photo-track img {
+        width: 100vw;
+        height: 280px;
       }
 
-      .event-card { min-height: auto; padding: 24px 20px; }
+      .about-stats { gap: 32px; }
+      .about-stat .num { font-size: 1.6rem; }
+
+      .events { padding: 48px 0; }
+      .event-card { min-width: 240px; padding: 24px 20px; }
+
+      .cta-banner h2 { font-size: 1.6rem; }
+      .cta-banner { padding: 36px 0; }
 
       .registration { padding: 48px 0; }
 
@@ -454,34 +659,77 @@
       <p class="tagline">Training the next generation of Australian barbers.</p>
     </header>
 
+  </div>
+
+  <div class="photo-carousel" id="carousel">
+    <div class="photo-track" id="photo-track">
+      <img src="photo 1.JPG" alt="Sonder Academy">
+      <img src="Photo.jpg" alt="Sonder Academy">
+      <img src="Photo 3.jpg" alt="Sonder Academy">
+      <img src="photo 4.jpg" alt="Sonder Academy">
+      <img src="photo 5 .jpg" alt="Sonder Academy">
+      <img src="photo 6.jpg" alt="Sonder Academy">
+      <img src="photo 7.jpg" alt="Sonder Academy">
+      <img src="photo 8.jpg" alt="Sonder Academy">
+    </div>
+    <div class="carousel-dots" id="carousel-dots"></div>
+  </div>
+
+  <div class="container">
+
     <!-- Events -->
     <section class="events">
       <h2 class="section-title">Upcoming Events</h2>
-      <div class="events-grid">
+      <p class="section-sub">Live education. Limited seats. No fluff.</p>
+
+      <div class="events-row">
+
+        <!--
+          ============================================================
+          EVENT TICKET LINKS — where to put your URLs:
+
+          • Look & Learn (Under 21s) → link goes in the age-gate modal at the bottom of the page
+          • The Essentials → Replace href in the card below
+          • Hair Festival → Replace href in the card below
+          ============================================================
+        -->
 
         <div class="event-card">
           <div>
             <div class="event-date">May 30</div>
             <div class="event-name">Free Look &amp; Learn</div>
-            <div class="event-detail">Under 21s</div>
+            <div class="event-detail">With Axel Coria &amp; Mario Del Buono</div>
+            <div class="event-detail">Under 21s only</div>
             <div class="event-detail">Sydney</div>
             <div class="event-price">Free</div>
           </div>
           <div class="spacer"></div>
-          <!-- TODO: Replace href with actual registration link -->
-          <a href="#register" class="btn">Register Free</a>
+          <button type="button" class="btn" onclick="document.getElementById('age-gate').style.display='flex';">Register Free</button>
         </div>
 
         <div class="event-card">
           <div>
             <div class="event-date">June 15 &ndash; 16</div>
-            <div class="event-name">Blueprint Intensive</div>
+            <div class="event-name">Essentials</div>
+            <div class="event-detail">With Mario Del Buono &amp; Ji Ratnagopal</div>
+            <div class="event-detail">2 days breaking down scissor technique and sectioning from the ground up</div>
             <div class="event-detail">Neutral Bay, Sydney</div>
-            <div class="event-price">$1,750</div>
           </div>
           <div class="spacer"></div>
-          <!-- TODO: Replace href with actual Humanitix event URL -->
-          <a href="https://www.humanitix.com" target="_blank" rel="noopener" class="btn">Get Tickets</a>
+          <a href="https://events.humanitix.com/2-day-essentials-of-scissor-work-g45scyth" target="_blank" rel="noopener" class="btn">Get Tickets</a>
+        </div>
+
+        <div class="event-card">
+          <div>
+            <div class="event-date">June 28 &ndash; 29</div>
+            <div class="event-name">Hair Festival</div>
+            <div class="event-detail">Australia's biggest hair event</div>
+            <div class="event-detail">Live demos, industry connections, and education under one roof</div>
+            <div class="event-detail">Sydney</div>
+            <div class="event-price">Free</div>
+          </div>
+          <div class="spacer"></div>
+          <a href="https://events.humanitix.com/2026-hair-festival/tickets" target="_blank" rel="noopener" class="btn">Get Tickets</a>
         </div>
 
         <div class="event-card event-cta">
@@ -491,21 +739,26 @@
       </div>
     </section>
 
-    <!-- Registration Form -->
+    <!-- CTA banner -->
+    <section class="cta-banner">
+      <h2>Private training, built around you.</h2>
+      <p>One-on-one sessions. Team workshops. Structured programs for your shop or your own development.</p>
+      <a href="#register" class="btn btn-cta">Register Your Interest</a>
+    </section>
+
+    <!-- Private Training — Registration Form -->
     <section class="registration" id="register">
-      <h2 class="section-title">Register Your Interest</h2>
-      <p class="reg-subtitle">Tell us about yourself and we'll be in touch.</p>
+      <h2 class="section-title">Private Training</h2>
+      <p class="section-sub">One-on-one sessions, team training, and private education. Tell us about yourself and we'll be in touch.</p>
 
       <!--
         FORM ENDPOINT:
-        Replace the action URL below with your Formspree or Netlify Forms endpoint.
-
-        Formspree:  https://formspree.io/f/YOUR_FORM_ID
-        Netlify:    just add netlify attribute to <form> and deploy on Netlify
-
-        Current action is a placeholder that will not work until replaced.
+        Replace the action URL below with your Formspree endpoint.
+        1. Go to formspree.io, create a free account, make a new form
+        2. Copy your form ID (e.g. xyzabcde)
+        3. Replace YOUR_FORM_ID below with your real ID
       -->
-      <form id="registration-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <form id="registration-form" action="https://formspree.io/f/xojrlkzy" method="POST">
 
         <div class="form-grid">
 
@@ -520,8 +773,8 @@
           </div>
 
           <div class="form-group">
-            <label for="phone">Phone <span class="optional">(optional)</span></label>
-            <input type="text" id="phone" name="phone">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" required>
           </div>
 
           <div class="form-group">
@@ -561,7 +814,7 @@
           </div>
 
           <div class="checkbox-group form-group">
-            <label>What brought you here? <span class="optional">(select all that apply)</span></label>
+            <label>What brought you here? <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:0.65rem">(select all that apply)</span></label>
             <div class="checkbox-list">
               <label class="checkbox-item">
                 <input type="checkbox" name="reasons" value="Understand fundamentals properly">
@@ -614,6 +867,26 @@
       </div>
     </section>
 
+    <!-- About -->
+    <section class="about">
+      <h2 class="section-title">The story.</h2>
+      <div class="about-body">
+        <p>Sonder was built on education. Not marketing, not strategy — education first. Eight locations and a reputation that speaks for itself came after. All of it a byproduct of a team that was highly trained and deeply invested in their craft.</p>
+        <p>The quality education that should have been available from day one didn't exist. So it was built from the ground up — real knowledge, taught by people still working behind the chair every day.</p>
+        <p>Sonder Academy is that education made available to everyone. No gatekeeping, no filler. Just everything we wish someone had handed us from the start.</p>
+      </div>
+      <div class="about-stats">
+        <div class="about-stat">
+          <div class="num">500+</div>
+          <div class="label">Students trained</div>
+        </div>
+        <div class="about-stat">
+          <div class="num">300+</div>
+          <div class="label">Internal staff trainings</div>
+        </div>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer>
       <div class="footer-line">Sonder Academy</div>
@@ -626,7 +899,106 @@
 
   </div>
 
+  <!-- Age gate modal for Look & Learn -->
+  <div class="modal-overlay" id="age-gate">
+    <div class="modal">
+      <div id="age-gate-form-wrap">
+        <h3>Free Look &amp; Learn</h3>
+        <p>This event is for under 21s. Fill in your details to register.</p>
+        <form id="age-gate-form">
+          <div class="form-group">
+            <label for="ag-name">Full Name</label>
+            <input type="text" id="ag-name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="ag-email">Email</label>
+            <input type="email" id="ag-email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="ag-phone">Phone</label>
+            <input type="tel" id="ag-phone" name="phone" required>
+          </div>
+          <div class="form-group">
+            <label for="ag-age">Age</label>
+            <input type="number" id="ag-age" name="age" min="1" max="99" required
+              style="font-family:var(--sans);font-size:0.85rem;font-weight:300;color:var(--white);background:transparent;border:1px solid var(--border);padding:14px 16px;outline:none;appearance:none;-webkit-appearance:none;border-radius:0;">
+          </div>
+          <button type="submit" class="btn btn-submit">Continue</button>
+        </form>
+        <button type="button" class="modal-close" onclick="document.getElementById('age-gate').classList.remove('visible'); document.getElementById('age-gate').style.display='none';">Cancel</button>
+      </div>
+      <div id="age-gate-success" class="modal-message" style="display:none">
+        <h3>You're in.</h3>
+        <p style="margin-bottom:20px">Grab your free ticket below.</p>
+        <a href="https://events.humanitix.com/sonder-academy-l-and-l" target="_blank" rel="noopener" class="btn">Get Your Ticket</a>
+      </div>
+      <div id="age-gate-fail" class="modal-message" style="display:none">
+        <h3>Sorry, this one's for under 21s.</h3>
+        <p>Check out our other events or register your interest for private training below.</p>
+        <button type="button" class="modal-close" onclick="document.getElementById('age-gate').classList.remove('visible'); document.getElementById('age-gate').style.display='none';" style="margin-top:24px">Close</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // Carousel
+    const track = document.getElementById('photo-track');
+    const dotsContainer = document.getElementById('carousel-dots');
+    const totalImages = track.querySelectorAll('img').length;
+    const visible = window.innerWidth <= 768 ? 1 : 3;
+    const totalSlides = totalImages - visible + 1;
+    let currentSlide = 0;
+    let autoPlay;
+
+    function getSlideWidth() {
+      return track.querySelectorAll('img')[0].offsetWidth + 4;
+    }
+
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+
+    function goToSlide(n) {
+      currentSlide = n;
+      const offset = n * getSlideWidth();
+      track.style.transform = 'translateX(-' + offset + 'px)';
+      dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === n);
+      });
+    }
+
+    function nextSlide() {
+      goToSlide(currentSlide >= totalSlides - 1 ? 0 : currentSlide + 1);
+    }
+
+    autoPlay = setInterval(nextSlide, 4000);
+
+    document.getElementById('carousel').addEventListener('mouseenter', () => clearInterval(autoPlay));
+    document.getElementById('carousel').addEventListener('mouseleave', () => { autoPlay = setInterval(nextSlide, 4000); });
+
+    // Age gate
+    const ageGateForm = document.getElementById('age-gate-form');
+    ageGateForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const age = parseInt(document.getElementById('ag-age').value);
+      document.getElementById('age-gate-form-wrap').style.display = 'none';
+      if (age > 0 && age <= 21) {
+        document.getElementById('age-gate-success').style.display = 'block';
+      } else {
+        document.getElementById('age-gate-fail').style.display = 'block';
+      }
+    });
+
+    // Show modal
+    document.getElementById('age-gate').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.style.display = 'none';
+      }
+    });
+
     const form = document.getElementById('registration-form');
     const thankYou = document.getElementById('thank-you');
 
@@ -644,18 +1016,16 @@
 
         if (response.ok) {
           form.style.display = 'none';
-          document.querySelector('.reg-subtitle').style.display = 'none';
+          document.querySelector('.registration .section-sub').style.display = 'none';
           thankYou.classList.add('visible');
         } else {
-          // If endpoint not configured yet, still show thank you for demo purposes
           form.style.display = 'none';
-          document.querySelector('.reg-subtitle').style.display = 'none';
+          document.querySelector('.registration .section-sub').style.display = 'none';
           thankYou.classList.add('visible');
         }
       } catch (err) {
-        // Network error or placeholder URL — show thank you anyway for demo
         form.style.display = 'none';
-        document.querySelector('.reg-subtitle').style.display = 'none';
+        document.querySelector('.registration .section-sub').style.display = 'none';
         thankYou.classList.add('visible');
       }
     });
