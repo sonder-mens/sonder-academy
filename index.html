@@ -694,22 +694,9 @@
           ============================================================
         -->
 
-        <div class="event-card">
+<div class="event-card">
           <div>
-            <div class="event-date">May 30</div>
-            <div class="event-name">Free Look &amp; Learn</div>
-            <div class="event-detail">With Axel Coria &amp; Mario Del Buono</div>
-            <div class="event-detail">Under 21s only</div>
-            <div class="event-detail">Sydney</div>
-            <div class="event-price">Free</div>
-          </div>
-          <div class="spacer"></div>
-          <button type="button" class="btn" onclick="document.getElementById('age-gate').style.display='flex';">Register Free</button>
-        </div>
-
-        <div class="event-card">
-          <div>
-            <div class="event-date">June 15 &ndash; 16</div>
+            <div class="event-date">June 14 &ndash; 15</div>
             <div class="event-name">Essentials</div>
             <div class="event-detail">With Mario Del Buono &amp; Ji Ratnagopal</div>
             <div class="event-detail">2 days breaking down scissor technique and sectioning from the ground up</div>
@@ -730,6 +717,25 @@
           </div>
           <div class="spacer"></div>
           <a href="https://events.humanitix.com/2026-hair-festival/tickets" target="_blank" rel="noopener" class="btn">Get Tickets</a>
+        </div>
+
+        <div class="event-card">
+          <div>
+            <div class="event-name">Chop Lloyd Workshop</div>
+            <div class="event-detail">A workshop with Chop Lloyd</div>
+          </div>
+          <div class="spacer"></div>
+          <a href="https://events.humanitix.com/chop-lloyd-workshop-sonder-academy" target="_blank" rel="noopener" class="btn">Get Tickets</a>
+        </div>
+
+        <div class="event-card">
+          <div>
+            <div class="event-date">November</div>
+            <div class="event-name">Dove Palmer</div>
+            <div class="event-detail">In Sydney this November</div>
+          </div>
+          <div class="spacer"></div>
+          <a href="#register" class="btn">Register Interest</a>
         </div>
 
         <div class="event-card event-cta">
@@ -915,46 +921,6 @@
 
   </div>
 
-  <!-- Age gate modal for Look & Learn -->
-  <div class="modal-overlay" id="age-gate">
-    <div class="modal">
-      <div id="age-gate-form-wrap">
-        <h3>Free Look &amp; Learn</h3>
-        <p>This event is for under 21s. Fill in your details to register.</p>
-        <form id="age-gate-form">
-          <div class="form-group">
-            <label for="ag-name">Full Name</label>
-            <input type="text" id="ag-name" name="name" required>
-          </div>
-          <div class="form-group">
-            <label for="ag-email">Email</label>
-            <input type="email" id="ag-email" name="email" required>
-          </div>
-          <div class="form-group">
-            <label for="ag-phone">Phone</label>
-            <input type="tel" id="ag-phone" name="phone" required>
-          </div>
-          <div class="form-group">
-            <label for="ag-age">Age</label>
-            <input type="number" id="ag-age" name="age" min="1" max="99" required
-              style="font-family:var(--sans);font-size:0.85rem;font-weight:300;color:var(--white);background:transparent;border:1px solid var(--border);padding:14px 16px;outline:none;appearance:none;-webkit-appearance:none;border-radius:0;">
-          </div>
-          <button type="submit" class="btn btn-submit">Continue</button>
-        </form>
-        <button type="button" class="modal-close" onclick="document.getElementById('age-gate').classList.remove('visible'); document.getElementById('age-gate').style.display='none';">Cancel</button>
-      </div>
-      <div id="age-gate-success" class="modal-message" style="display:none">
-        <h3>You're in.</h3>
-        <p style="margin-bottom:20px">Grab your free ticket below.</p>
-        <a href="https://events.humanitix.com/sonder-academy-l-and-l" target="_blank" rel="noopener" class="btn">Get Your Ticket</a>
-      </div>
-      <div id="age-gate-fail" class="modal-message" style="display:none">
-        <h3>Sorry, this one's for under 21s.</h3>
-        <p>Check out our other events or register your interest for private training below.</p>
-        <button type="button" class="modal-close" onclick="document.getElementById('age-gate').classList.remove('visible'); document.getElementById('age-gate').style.display='none';" style="margin-top:24px">Close</button>
-      </div>
-    </div>
-  </div>
 
   <script>
     // Show "Tell us more" when "Something else" is selected
@@ -1000,27 +966,7 @@
     document.getElementById('carousel').addEventListener('mouseenter', () => clearInterval(autoPlay));
     document.getElementById('carousel').addEventListener('mouseleave', () => { autoPlay = setInterval(nextSlide, 4000); });
 
-    // Age gate
-    const ageGateForm = document.getElementById('age-gate-form');
-    ageGateForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const age = parseInt(document.getElementById('ag-age').value);
-      document.getElementById('age-gate-form-wrap').style.display = 'none';
-      if (age > 0 && age <= 21) {
-        document.getElementById('age-gate-success').style.display = 'block';
-      } else {
-        document.getElementById('age-gate-fail').style.display = 'block';
-      }
-    });
-
-    // Show modal
-    document.getElementById('age-gate').addEventListener('click', function(e) {
-      if (e.target === this) {
-        this.style.display = 'none';
-      }
-    });
-
-    const form = document.getElementById('registration-form');
+const form = document.getElementById('registration-form');
     const thankYou = document.getElementById('thank-you');
 
     form.addEventListener('submit', async function(e) {
