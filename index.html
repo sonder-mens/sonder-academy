@@ -971,28 +971,38 @@ const form = document.getElementById('registration-form');
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
 
+      const submitBtn = form.querySelector('.btn-submit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      // Send to Formspree and Web3Forms; either delivering counts as success
       const formData = new FormData(form);
+      const backupData = new FormData(form);
+      backupData.append('access_key', 'e1c99564-2c18-43c6-9653-9036997b208d');
+      backupData.append('subject', 'New Sonder Academy application');
+      backupData.append('from_name', 'Sonder Academy form');
 
-      try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
+      const results = await Promise.allSettled([
+        fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } }),
+        fetch('https://api.web3forms.com/submit', { method: 'POST', body: backupData })
+      ]);
+      const delivered = results.some(function(r) { return r.status === 'fulfilled' && r.value.ok; });
 
-        if (response.ok) {
-          form.style.display = 'none';
-          document.querySelector('.registration .section-sub').style.display = 'none';
-          thankYou.classList.add('visible');
-        } else {
-          form.style.display = 'none';
-          document.querySelector('.registration .section-sub').style.display = 'none';
-          thankYou.classList.add('visible');
-        }
-      } catch (err) {
+      if (delivered) {
         form.style.display = 'none';
         document.querySelector('.registration .section-sub').style.display = 'none';
         thankYou.classList.add('visible');
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit';
+        let errorNote = document.getElementById('form-error');
+        if (!errorNote) {
+          errorNote = document.createElement('p');
+          errorNote.id = 'form-error';
+          errorNote.style.cssText = 'grid-column:1/-1;font-size:0.82rem;color:#ccc;text-align:center;margin-top:12px;';
+          errorNote.innerHTML = 'Something went wrong sending your application. Please try again, or email us at <a href="mailto:sonder@sondermens.com" style="color:#fff;">sonder@sondermens.com</a>.';
+          form.querySelector('.form-grid').appendChild(errorNote);
+        }
       }
     });
   </script>
